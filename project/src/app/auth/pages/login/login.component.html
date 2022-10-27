@@ -1,0 +1,36 @@
+<div class="login-container w-50">
+  <form (ngSubmit)="login()">
+
+    <h2>Iniciar sesión</h2>
+    <div class="formgrid grid">
+
+      <div class="field col">
+        <div class="p-inputgroup">
+  
+          <input autocomplete="off" type="text" name="nombre" pInputText placeholder="Correo" [(ngModel)]="usuario.correo" >         
+        </div>
+      </div>
+  
+    </div>
+
+    <div class="formgrid grid">
+
+      <div class="field col">
+        <div class="p-inputgroup">
+  
+          <input autocomplete="off" type="text" name="nombre" pInputText placeholder="Password" [(ngModel)]="usuario.password" >         
+        </div>
+      </div>
+  
+    </div>
+
+    <div class="field grid">
+  
+      <div class="col">
+        <button [type]="'submit'" pButton pRipple type="button" label="Iniciar sesión" icon="pi pi-save" class="p-button-success"></button>  
+      </div>
+  
+    </div>
+  </form>
+
+</div>

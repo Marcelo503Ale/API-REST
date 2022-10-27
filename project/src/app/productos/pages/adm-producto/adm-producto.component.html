@@ -1,0 +1,145 @@
+<h2>Catalogo de Productos</h2>
+
+<div class="table">
+  <!--Tabla-->
+  <p-table #dt
+  [value]="producto"
+  responsiveLayout="scroll"
+  [rowHover]="true"
+  [paginator]="true"
+  [rows]="5"
+  [rowsPerPageOptions]="[5,10,15]"
+  [globalFilterFields]="['id','nombre']"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+  [(selection)]="selectedproductos"
+  dataKey="id"
+  class="table"
+  >
+
+    <!--Caption-->
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+          <h2>Lista de Productos</h2>
+          <div>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"  placeholder="Buscar" />
+            </span>
+          </div>
+      </div>
+      <button icon="pi pi-plus-circle" pButton pRipple type="button" (click)="showDialog('crear')" label="Agregar"></button>
+    </ng-template>
+
+    <!--Header-->
+    <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th pSortableColumn="nombre">
+            Nombre
+            <p-sortIcon field="name"></p-sortIcon>
+            <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto"></p-columnFilter>
+          </th>
+          <th>Marca</th>
+          <th>Existencia</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+    </ng-template>
+
+    <!--Cuerpo-->
+    <ng-template pTemplate="body" let-producto>
+        <tr>
+            <td>{{producto.id}}</td>
+            <td>{{producto.nombre}}</td>
+            <td>{{producto.marca}}</td>
+            <td>{{producto.existencia}}</td>
+            <td>{{producto.precio}}</td>
+
+
+            <td>
+              <button pButton pRipple type="button" (click)="showDialog('actualizar', producto.id)"  icon="pi pi-pencil" class="p-button-primary me-3"></button>
+              <button pButton pRipple type="button" (click)="delete()" icon="pi pi-times-circle" class="p-button-danger"></button>
+
+            </td>
+        </tr>
+    </ng-template>
+
+  </p-table>
+</div>
+
+
+<p-dialog class="modal" [style]="{width: '70vw'}" [header]="dialogTitle | titlecase" [(visible)]="saveOrUpdateDialog">
+  <h5>{{dialogTitle | titlecase}}</h5>
+
+  <form (ngSubmit)="save($event)">
+    <div class="formgrid grid">
+
+      <div class="field col">
+        <div class="p-inputgroup">
+
+          <input autocomplete="off" type="text" name="nombre" [value]="productou.nombre" [(ngModel)]="productou.nombre" pInputText placeholder="Nombre">
+        </div>
+      </div>
+
+      <div class="field col">
+        <div class="p-inputgroup">
+
+          <input autocomplete="off" type="text" name="descripcion" [value]="productou.descripcion" [(ngModel)]="productou.descripcion" pInputText placeholder="descripcion">
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col">
+        <div class="p-inputgroup">
+
+          <input autocomplete="off" type="number" step="0.01" name="precio" [value]="productou.precio" [(ngModel)]="productou.precio" pInputText placeholder="precio">
+        </div>
+      </div>
+
+      <div class="field col">
+        <div class="p-inputgroup">
+
+          <input autocomplete="off" type="text" name="existencia" [value]="productou.existencia" [(ngModel)]="productou.existencia" pInputText placeholder="existencia">
+        </div>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col">
+        <div class="p-inputgroup">
+
+          <input autocomplete="off" type="text" name="marca" [value]="productou.marca" [(ngModel)]="productou.marca" pInputText placeholder="marca">
+        </div>
+      </div>
+
+      <div class="field col">
+        <label>Imagen</label>
+        <div class="p-inputgroup">
+
+          <input (change)="processFile($event)" autocomplete="off" type="file" name="imagen" pInputText placeholder="Imagen">
+          <div *ngIf="productou.imagen != undefined && productou.imagen != ''" class="ms-1">
+            <span class="d-block">actual:</span>
+            <img class="thumb-minus" [src]="imagePath + '/' + productou.imagen" alt="">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="field grid">
+
+      <div class="col">
+        <button [type]="'submit'" pButton pRipple type="button" label="Guardar" icon="pi pi-save" class="p-button-success"></button>
+      </div>
+
+    </div>
+  </form>
+
+</p-dialog>
+
